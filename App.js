@@ -9,18 +9,9 @@ import { Ionicons } from "@expo/vector-icons"
 import AuthStack from "./Stacks/AuthStack"
 import HomeStack from "./Stacks/HomeStack"
 import DiscoverStack from "./Stacks/DiscoverStack"
+import SettingsStack from "./Stacks/SettingsStack"
 
 import Colors from "./Constants/Colors"
-
-//**FIREBASE
-import { db, auth } from "./Firebase/firebase"
-
-import {
-  useFonts,
-  Roboto_300Light,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/roboto"
 
 //navigation elements
 const Stack = createNativeStackNavigator()
@@ -41,6 +32,8 @@ export default function App() {
             if (route.name === "Main") {
               iconName = focused ? "home" : "home-outline"
             } else if (route.name === "Discover") {
+              iconName = focused ? "film" : "film-outline"
+            } else if (route.name === "Settings") {
               iconName = focused ? "settings" : "settings-outline"
             }
 
@@ -65,6 +58,14 @@ export default function App() {
           options={{
             headerShown: false,
             tabBarLabel: "Discover",
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsStack}
+          options={{
+            headerShown: false,
+            tabBarLabel: "Settings",
           }}
         />
       </Tab.Navigator>

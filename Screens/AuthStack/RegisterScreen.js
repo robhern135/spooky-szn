@@ -2,11 +2,10 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
 } from "react-native"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useLayoutEffect } from "react"
 
 import { auth, db } from "../../Firebase/firebase"
 import { doc, setDoc } from "firebase/firestore"
@@ -16,6 +15,7 @@ import Colors from "../../Constants/Colors"
 import { Feather } from "@expo/vector-icons"
 
 import MoviesNewUser from "../../Data/Movies-newuser"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const RegisterScreen = ({ route, navigation }) => {
   const [name, setName] = useState("")
@@ -46,6 +46,19 @@ const RegisterScreen = ({ route, navigation }) => {
         console.log(err.message)
       })
   }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      // headerStyle: {
+      //   backgroundColor: Colors.black,
+      // },
+      // headerTintColor: "#fff",
+      // headerTitleStyle: {
+      //   fontWeight: "bold",
+      // },
+    })
+  }, [])
 
   const setUpBlankMovies = (userId) => {
     try {
@@ -81,8 +94,12 @@ const RegisterScreen = ({ route, navigation }) => {
     }
   }
 
+  const handleLoginScreen = () => {
+    navigation.goBack()
+  }
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+    <SafeAreaView style={styles.container} behavior={"padding"}>
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Register</Text>
         <TextInput
@@ -117,16 +134,19 @@ const RegisterScreen = ({ route, navigation }) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleSignUp} style={[styles.button]}>
+          <Text style={[styles.buttonText]}>Register</Text>
+        </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleLoginScreen}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={[styles.buttonText, styles.buttonOutlineText]}>
-            Register
+            Register for an Account
           </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -137,16 +157,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    backgroundColor: Colors.black,
   },
   header: {
     fontSize: 30,
     fontWeight: "bold",
-    color: Colors.primary,
+    color: "white",
     marginBottom: 20,
     textAlign: "center",
   },
   inputContainer: { width: "80%" },
-  eyeIcon: { position: "absolute", right: 9, top: 9 },
+  eyeIcon: { position: "absolute", right: 15, bottom: 15 },
   input: {
     backgroundColor: "white",
     paddingHorizontal: 15,
@@ -154,6 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderRadius: 10,
     marginVertical: 3,
+    color: Colors.black,
   },
   buttonContainer: {
     width: "60%",
@@ -162,24 +184,24 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: Colors.primary,
+    backgroundColor: "white",
     width: "100%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     marginTop: 5,
-    borderColor: Colors.primary,
+    borderColor: Colors.black,
     borderWidth: 2,
   },
   buttonText: {
-    color: "white",
+    color: Colors.black,
     fontWeight: "700",
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: Colors.primary,
+    color: "white",
   },
 })

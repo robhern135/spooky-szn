@@ -2,17 +2,17 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
 } from "react-native"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useLayoutEffect } from "react"
 
 import { auth } from "../../Firebase/firebase"
 
 import Colors from "../../Constants/Colors"
 
 import { Feather } from "@expo/vector-icons"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("")
@@ -26,6 +26,19 @@ const LoginScreen = ({ navigation }) => {
       }
     })
     return unsubscribe
+  }, [])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      // headerStyle: {
+      //   backgroundColor: Colors.black,
+      // },
+      // headerTintColor: "#fff",
+      // headerTitleStyle: {
+      //   fontWeight: "bold",
+      // },
+    })
   }, [])
 
   const handleLogin = () => {
@@ -45,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+    <SafeAreaView style={styles.container} behavior={"padding"}>
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Login</Text>
         <TextInput
@@ -86,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -95,17 +108,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    backgroundColor: Colors.black,
   },
   header: {
     fontSize: 30,
     fontWeight: "bold",
-    color: Colors.primary,
+    color: "white",
     marginBottom: 20,
     textAlign: "center",
   },
   inputContainer: { width: "80%" },
-  eyeIcon: { position: "absolute", right: 9, top: 9 },
+  eyeIcon: { position: "absolute", right: 15, bottom: 15 },
   input: {
+    color: Colors.black,
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -121,25 +136,25 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: Colors.primary,
+    backgroundColor: "white",
     width: "100%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     marginTop: 5,
-    borderColor: Colors.primary,
+    borderColor: Colors.black,
     borderWidth: 2,
   },
   buttonText: {
-    color: "white",
+    color: Colors.black,
     fontWeight: "700",
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: Colors.primary,
+    color: "white",
   },
 })
 
