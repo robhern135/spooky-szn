@@ -8,19 +8,34 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native"
-import { useEffect, useState } from "react"
-import { LinearGradient } from "expo-linear-gradient"
+import { useEffect, useLayoutEffect, useState } from "react"
+
+import Colors from "../../Constants/Colors"
 
 import Images from "../../Constants/Images"
 
 import axios from "axios"
 
-const DiscoverScreen = () => {
+const DiscoverScreen = ({ navigation }) => {
   const [discovery, setDiscovery] = useState(null)
   const windowWidth = Dimensions.get("window").width
   const [numCols, setNumCols] = useState(3)
 
   let apiQuery = `https://api.themoviedb.org/3/discover/movie?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&with_genres=27`
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: "Discover new movies!",
+      headerStyle: {
+        backgroundColor: Colors.black,
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    })
+  }, [])
 
   useEffect(() => {
     try {
@@ -48,10 +63,10 @@ const DiscoverScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {discovery && <Text>Discover new movies below!</Text>}
+      {/* {discovery && <Text>Discover new movies below!</Text>} */}
       {discovery && (
         <FlatList
-          data={discovery}
+          data={discovery.slice(0, 18)}
           renderItem={Item}
           keyExtractor={(item) => item.id}
           style={styles.discoveryList}
@@ -68,13 +83,14 @@ const styles = StyleSheet.create({
   discoveryList: {
     flexWrap: "wrap",
     flexDirection: "row",
+    backgroundColor: Colors.black,
   },
   item: {
     textAlign: "center",
     aspectRatio: 1 / 1.5,
     alignItems: "center",
     justifyContent: "space-evenly",
-    backgroundColor: "rgba(224, 224, 224, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 1)",
     margin: 2,
   },
   backgroundImage: {

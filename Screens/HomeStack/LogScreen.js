@@ -6,7 +6,7 @@ import {
   TextInput,
   Dimensions,
 } from "react-native"
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 import axios from "axios"
 
@@ -23,6 +23,20 @@ const LogScreen = ({ route, navigation }) => {
 
   const windowHeight = Dimensions.get("window").height
   const windowWidth = Dimensions.get("window").width
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: "Log a movie",
+      headerStyle: {
+        backgroundColor: Colors.black,
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    })
+  }, [])
 
   const handleTextChange = (text) => {
     setText(text)

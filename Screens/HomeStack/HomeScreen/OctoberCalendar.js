@@ -6,6 +6,7 @@ import {
   Text,
   StatusBar,
   Dimensions,
+  ActivityIndicator,
 } from "react-native"
 
 import { useState, useEffect } from "react"
@@ -47,42 +48,42 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
     } else {
       console.log("data does not exist!")
     }
-
-    // movieRef
-    //   .get()
-    //   .then((doc) => {
-    //     // setMovies(doc.data())
-    //     console.log(doc.data())
-    //     // setUsersName(doc.data().name)
-    //     // console.log(currentUser.uid)
-    //     // console.log(usersName)
-    //     // setMovies(doc.data().movies)
-    //   })
-    //   .then(console.log(movies))
   }
 
   return (
     <SafeAreaView style={styles.calendar}>
-      <FlatList
-        data={movies}
-        renderItem={({ item }) => (
-          <CalendarItem
-            navigation={navigation}
-            calCols={calCols}
-            movie={item}
-            itemIndex={item.index}
-            currentDate={currentDate}
-            movies={movies}
-          />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={calCols}
-      />
+      {movies ? (
+        <FlatList
+          data={movies}
+          renderItem={({ item }) => (
+            <CalendarItem
+              navigation={navigation}
+              calCols={calCols}
+              movie={item}
+              itemIndex={item.index}
+              currentDate={currentDate}
+              movies={movies}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={calCols}
+        />
+      ) : (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   calendar: {
     marginTop: StatusBar.currentHeight || 0,
   },

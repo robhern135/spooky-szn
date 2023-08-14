@@ -12,7 +12,6 @@ const DiscoverStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="DiscoverScreen" component={DiscoverScreen} />
-      {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
     </Stack.Navigator>
   )
 }

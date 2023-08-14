@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground } from "react-native"
-import React from "react"
+import React, { useLayoutEffect } from "react"
 
 import FilmBanner from "./FilmScreen/FilmBanner"
 import Genres from "./FilmScreen/Genres"
@@ -26,6 +26,22 @@ const FilmScreen = ({ route, navigation }) => {
       title,
     },
   } = route.params
+
+  useLayoutEffect(() => {
+    let headerTitle = `${title} (${release_date.substring(0, 4)})`
+    navigation.setOptions({
+      headerShown: true,
+      title: headerTitle,
+      headerStyle: {
+        backgroundColor: Colors.black,
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    })
+  }, [])
+
   return (
     <View style={styles.container}>
       <FilmBanner

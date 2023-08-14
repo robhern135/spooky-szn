@@ -32,9 +32,11 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarActiveBackgroundColor: Colors.black,
+          tabBarInactiveBackgroundColor: Colors.black,
           tabBarIcon: ({ focused }) => {
             let iconName
-            let color = focused ? Colors.green : Colors.black
+            let color = focused ? "white" : "white"
 
             if (route.name === "Main") {
               iconName = focused ? "home" : "home-outline"
@@ -45,8 +47,8 @@ export default function App() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={24} color={color} />
           },
-          tabBarActiveTintColor: Colors.primary,
-          tabBarInactiveTintColor: Colors.black,
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "white",
         })}
       >
         <Tab.Screen
