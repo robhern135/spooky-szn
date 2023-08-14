@@ -16,11 +16,7 @@ import { useEffect, useLayoutEffect, useState, useCallback } from "react"
 
 import Colors from "../../Constants/Colors"
 
-import Images from "../../Constants/Images"
-
 import { auth, db } from "../../Firebase/firebase"
-
-import axios from "axios"
 
 const SettingsScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get("window").width
@@ -142,6 +138,7 @@ const SettingsScreen = ({ navigation }) => {
         </TouchableOpacity>
         <View style={[styles.divider, { width: windowWidth - 80 }]}></View>
         <Text style={styles.header}>Credits</Text>
+        {/* https://www.freepik.com/free-vector/flat-halloween-animated-ghost-collection_5415564.htm#query=ghost&position=0&from_view=keyword&track=sph */}
         <Text style={styles.detailText}>Ghost Image by Freepik</Text>
         <Text style={styles.detailText}>
           Logo created using Canva Logo Maker
