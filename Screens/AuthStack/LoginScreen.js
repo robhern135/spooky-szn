@@ -1,9 +1,11 @@
 import {
   StyleSheet,
+  Dimensions,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native"
 import React, { useState, useEffect, useLayoutEffect } from "react"
 
@@ -13,6 +15,7 @@ import Colors from "../../Constants/Colors"
 
 import { Feather } from "@expo/vector-icons"
 import { SafeAreaView } from "react-native-safe-area-context"
+import Logo from "./Logo"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("")
@@ -31,13 +34,6 @@ const LoginScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
-      // headerStyle: {
-      //   backgroundColor: Colors.black,
-      // },
-      // headerTintColor: "#fff",
-      // headerTitleStyle: {
-      //   fontWeight: "bold",
-      // },
     })
   }, [])
 
@@ -59,6 +55,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} behavior={"padding"}>
+      <Logo />
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Login</Text>
         <TextInput
@@ -105,7 +102,8 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 20,
     alignItems: "center",
     flex: 1,
     backgroundColor: Colors.black,

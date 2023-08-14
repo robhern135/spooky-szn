@@ -8,7 +8,6 @@ import {
 import React, { useState, useEffect, useLayoutEffect } from "react"
 
 import { auth, db } from "../../Firebase/firebase"
-import { doc, setDoc } from "firebase/firestore"
 
 import Colors from "../../Constants/Colors"
 
@@ -16,6 +15,8 @@ import { Feather } from "@expo/vector-icons"
 
 import MoviesNewUser from "../../Data/Movies-newuser"
 import { SafeAreaView } from "react-native-safe-area-context"
+
+import Logo from "./Logo"
 
 const RegisterScreen = ({ route, navigation }) => {
   const [name, setName] = useState("")
@@ -100,6 +101,7 @@ const RegisterScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} behavior={"padding"}>
+      <Logo />
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Register</Text>
         <TextInput
@@ -142,7 +144,7 @@ const RegisterScreen = ({ route, navigation }) => {
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={[styles.buttonText, styles.buttonOutlineText]}>
-            Register for an Account
+            Login to your account
           </Text>
         </TouchableOpacity>
       </View>
@@ -154,7 +156,8 @@ export default RegisterScreen
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 20,
     alignItems: "center",
     flex: 1,
     backgroundColor: Colors.black,

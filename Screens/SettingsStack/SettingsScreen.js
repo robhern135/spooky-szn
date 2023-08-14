@@ -1,4 +1,5 @@
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -65,6 +66,20 @@ const SettingsScreen = ({ navigation }) => {
     })
   }, [])
 
+  const DeleteAccountConfirm = () =>
+    Alert.alert(
+      "Delete my account",
+      "Are you sure you would like to delete your account? This operation cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleDeleteAccount() },
+      ]
+    )
+
   const handleDeleteAccount = () => {
     const userRef = db.collection("users").doc(user.uid)
 
@@ -72,19 +87,18 @@ const SettingsScreen = ({ navigation }) => {
       .delete()
       .then(() => {
         console.log("Document successfully deleted!")
+        user
+          .delete()
+          .then(() => {
+            navigation.replace("AuthStack", { screen: "Login" })
+            console.log("account deleted!")
+          })
+          .catch((error) => {
+            alert(error.message)
+          })
       })
       .catch((error) => {
         console.error("Error removing document: ", error)
-      })
-
-    user
-      .delete()
-      .then(() => {
-        navigation.replace("AuthStack", { screen: "Login" })
-        console.log("account deleted!")
-      })
-      .catch((error) => {
-        alert(error.message)
       })
   }
   const handleLogOut = () => {
@@ -98,7 +112,7 @@ const SettingsScreen = ({ navigation }) => {
       .catch((err) => alert(err.message))
   }
 
-  if (userDetails.length > 0) {
+  if (userDetails) {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={[styles.header, { color: "white" }]}>Account Options</Text>
@@ -119,7 +133,7 @@ const SettingsScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Log out</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleDeleteAccount}
+          onPress={DeleteAccountConfirm}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={[styles.buttonText, styles.buttonOutlineText]}>
