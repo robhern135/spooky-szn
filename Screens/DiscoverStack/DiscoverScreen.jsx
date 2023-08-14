@@ -1,10 +1,8 @@
 import {
   StyleSheet,
-  Text,
   View,
   SafeAreaView,
   FlatList,
-  StatusBar,
   Dimensions,
   ImageBackground,
 } from "react-native"
@@ -63,7 +61,6 @@ const DiscoverScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* {discovery && <Text>Discover new movies below!</Text>} */}
       {discovery && (
         <FlatList
           data={discovery.slice(0, 18)}

@@ -4,15 +4,11 @@ import {
   Text,
   View,
   SafeAreaView,
-  FlatList,
-  StatusBar,
   Dimensions,
-  ImageBackground,
   TouchableOpacity,
-  Button,
   ActivityIndicator,
 } from "react-native"
-import { useEffect, useLayoutEffect, useState, useCallback } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 
 import Colors from "../../Constants/Colors"
 

@@ -1,35 +1,51 @@
 import {
   StyleSheet,
-  Dimensions,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  Image,
 } from "react-native"
-import React, { useState, useEffect, useLayoutEffect } from "react"
+import React, { useState, useLayoutEffect } from "react"
 
-import { auth } from "../../Firebase/firebase"
+import { auth, db } from "../../Firebase/firebase"
 
 import Colors from "../../Constants/Colors"
 
 import { Feather } from "@expo/vector-icons"
+
+import MoviesNewUser from "../../Data/Movies-newuser"
 import { SafeAreaView } from "react-native-safe-area-context"
+
 import Logo from "./Logo"
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+const RegisterScreen = ({ route, navigation }) => {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState(route.params.email)
+  const [password, setPassword] = useState(route.params.password)
   const [hidePassword, setHidePassword] = useState(true)
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.navigate("HomeStack")
-      }
-    })
-    return unsubscribe
-  }, [])
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user
+        console.log(`Registered with ${user.email}`)
+        const userCreated = Date().toLocaleString()
+        return db
+          .collection("users")
+          .doc(user.uid)
+          .set({
+            name,
+            email,
+            userCreated,
+          })
+          .then(setUpBlankMovies(user.uid))
+      })
+      .catch((err) => {
+        alert(err.message)
+        console.log(err.message)
+      })
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -37,27 +53,55 @@ const LoginScreen = ({ navigation }) => {
     })
   }, [])
 
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user
-        console.log(`Logged in with ${user.email}`)
+  const setUpBlankMovies = (userId) => {
+    try {
+      console.log(`userId is ${userId}`)
+      const userRef = db.collection("users").doc(userId)
+      const movieRef = db.collection("users").doc(userId).collection("movies")
+
+      userRef.set(
+        {
+          hasMoviesSetUp: true,
+        },
+        { merge: true }
+      )
+
+      let MoviesNewUserLength = 1
+
+      MoviesNewUser.forEach((movie) => {
+        movieRef.doc(`${MoviesNewUserLength}`).set(
+          {
+            date: movie.date,
+            day: movie.day,
+            completed: movie.completed,
+            film: movie.film,
+            filmId: movie.filmId,
+          },
+          { merge: true }
+        )
+        MoviesNewUserLength++
       })
-      .catch((err) => alert(err.message))
+    } catch (err) {
+      alert(err.message)
+      console.log(err.message)
+    }
   }
-  const handleRegisterScreen = () => {
-    navigation.navigate("Register", {
-      email: email,
-      password: password,
-    })
+
+  const handleLoginScreen = () => {
+    navigation.goBack()
   }
 
   return (
     <SafeAreaView style={styles.container} behavior={"padding"}>
       <Logo />
       <View style={styles.inputContainer}>
-        <Text style={styles.header}>Login</Text>
+        <Text style={styles.header}>Register</Text>
+        <TextInput
+          placeholder="Name"
+          value={name}
+          onChangeText={(text) => setName(text)}
+          style={styles.input}
+        ></TextInput>
         <TextInput
           placeholder="Email"
           value={email}
@@ -84,21 +128,23 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity onPress={handleSignUp} style={[styles.button]}>
+          <Text style={[styles.buttonText]}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleRegisterScreen}
+          onPress={handleLoginScreen}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={[styles.buttonText, styles.buttonOutlineText]}>
-            Register for an Account
+            Login to your account
           </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
 }
+
+export default RegisterScreen
 
 const styles = StyleSheet.create({
   container: {
@@ -118,15 +164,14 @@ const styles = StyleSheet.create({
   inputContainer: { width: "80%" },
   eyeIcon: { position: "absolute", right: 15, bottom: 15 },
   input: {
-    color: Colors.black,
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
     fontSize: 15,
     borderRadius: 10,
     marginVertical: 3,
+    color: Colors.black,
   },
-  passwordContainer: { flexDirection: "row" },
   buttonContainer: {
     width: "60%",
     justifyContent: "center",
@@ -155,5 +200,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 })
-
-export default LoginScreen

@@ -1,17 +1,9 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Image,
-} from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 import { auth, db } from "../../../Firebase/firebase"
 
-import Colors from "../../../Constants/Colors"
 import Images from "../../../Constants/Images"
 
 const Item = ({ item, navigation, date, movies }) => {
@@ -25,7 +17,6 @@ const Item = ({ item, navigation, date, movies }) => {
   //firebase
   const { currentUser } = auth
   const [userId, setUserId] = useState(currentUser.uid)
-  const [allMovies, setAllMovies] = useState(movies)
 
   const handleItemPress = () => {
     console.log("item pressed")
@@ -51,33 +42,7 @@ const Item = ({ item, navigation, date, movies }) => {
           refreshHome: "refreshHome",
         })
       })
-
-    // getMovies(moviesRef)
-    // db.collection("users")
-    // .doc(userId)
-    // .get()
-    // .then((doc) => {
-
-    //   // setUsersName(doc.data().name)
-    //   // console.log(currentUser.uid)
-    //   // console.log(usersName)
-    //   // setMovies(doc.data().movies)
-    // })
   }
-
-  // const getMovies = async (moviesRef) => {
-  //   const snapshot = await moviesRef.get(`${date}`)
-
-  //   const currentMovieRef =
-
-  //   if (snapshot) {
-  //     console.log("data exists!")
-  //     // snapshot.forEach((doc) => {
-  //     // })
-  //   } else {
-  //     console.log("data does not exist!")
-  //   }
-  // }
 
   return (
     <TouchableOpacity

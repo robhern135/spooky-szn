@@ -3,9 +3,7 @@ import {
   View,
   FlatList,
   StyleSheet,
-  Text,
   StatusBar,
-  Dimensions,
   ActivityIndicator,
 } from "react-native"
 
@@ -23,7 +21,6 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
   const [userId, setUserId] = useState(currentUser.uid)
 
   const [movies, setMovies] = useState([])
-  const [usersName, setUsersName] = useState()
 
   useEffect(() => {
     console.log(`userId = ${userId}`)

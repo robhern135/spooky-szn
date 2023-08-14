@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import React, { useLayoutEffect } from "react"
 
 import FilmBanner from "./FilmScreen/FilmBanner"
@@ -14,14 +14,10 @@ const FilmScreen = ({ route, navigation }) => {
     filmDetails: {
       backdrop_path,
       genres,
-      // homepage,
-      // id,
       overview,
-      // poster_path,
-      // production_companies,
       release_date,
       runtime,
-      // spoken_languages,
+
       tagline,
       title,
     },

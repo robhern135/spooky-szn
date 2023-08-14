@@ -1,40 +1,18 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Image,
-} from "react-native"
+import { StyleSheet } from "react-native"
 
-import Colors from "../../../Constants/Colors"
-import Images from "../../../Constants/Images"
+import Item from "./Item"
 
-import RenderItem from "./RenderItem"
-
-const SearchResults = ({ searchResults, navigation, date, movies }) => {
+const RenderItem = ({ item, navigation, date, movies }) => {
   return (
-    <View style={[styles.searchContainer, { backgroundColor: Colors.white }]}>
-      {searchResults && (
-        <FlatList
-          style={styles.flatList}
-          data={searchResults}
-          renderItem={(item) => (
-            <RenderItem
-              item={item}
-              date={date}
-              navigation={navigation}
-              movies={movies}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      )}
-    </View>
+    <Item
+      navigation={navigation}
+      date={date}
+      style={styles.renderItem}
+      item={item}
+      movies={movies}
+    />
   )
 }
-
-export default SearchResults
 
 const styles = StyleSheet.create({
   searchContainer: {
@@ -76,3 +54,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 })
+
+export default RenderItem

@@ -11,7 +11,6 @@ import axios from "axios"
 
 import Images from "../../../Constants/Images"
 
-const windowHeight = Dimensions.get("window").height
 const windowWidth = Dimensions.get("window").width
 
 //https://api.themoviedb.org/3/movie/4232?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&language=en-US

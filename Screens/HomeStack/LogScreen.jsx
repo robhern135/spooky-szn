@@ -22,7 +22,6 @@ const LogScreen = ({ route, navigation }) => {
   const [searchResults, setSearchResults] = useState(null)
 
   const windowHeight = Dimensions.get("window").height
-  const windowWidth = Dimensions.get("window").width
 
   useLayoutEffect(() => {
     navigation.setOptions({
