@@ -12,6 +12,7 @@ import axios from "axios"
 
 import Colors from "../../Constants/Colors"
 import SearchResults from "./LogScreen/SearchResults"
+import { ENV_API_KEY } from "@env"
 
 const LogScreen = ({ route, navigation }) => {
   const { date, completed, itemIndex, movies } = route.params
@@ -55,7 +56,8 @@ const LogScreen = ({ route, navigation }) => {
   }
 
   const searchForFilms = () => {
-    const API_Search = `https://api.themoviedb.org/3/search/movie?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&language=en-US&query=${searchQuery}&page=1&include_adult=false`
+    const API_Search = `https://api.themoviedb.org/3/search/movie?api_key=${ENV_API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
+    console.log(API_Search)
 
     axios.get(API_Search).then((res) => {
       setSearchResults(res.data.results)

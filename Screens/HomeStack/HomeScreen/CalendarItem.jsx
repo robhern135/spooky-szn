@@ -5,15 +5,17 @@ import {
   Dimensions,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
 import Images from "../../../Constants/Images"
+import { ENV_API_KEY } from "@env"
 
 const windowWidth = Dimensions.get("window").width
 
-//https://api.themoviedb.org/3/movie/4232?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&language=en-US
+//https://api.themoviedb.org/3/movie/4232?api_key=KEY&language=en-US
 
 const CalendarItem = ({
   movie,
@@ -33,8 +35,8 @@ const CalendarItem = ({
   }, [])
 
   const getFilmDetails = () => {
-    let apiQuery = `https://api.themoviedb.org/3/movie/${filmId}?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&language=en-US`
-
+    let apiQuery = `https://api.themoviedb.org/3/movie/${filmId}?api_key=${ENV_API_KEY}&language=en-US`
+    console.log(apiQuery)
     axios.get(apiQuery).then((res) => {
       setFilmDetails(res.data)
     })
@@ -70,13 +72,29 @@ const CalendarItem = ({
     })
   }
 
+  const handleTooSoon = () =>
+    Alert.alert(
+      "Hold your horses!",
+      `Wait until ${day} ${date}/10 to log this film`,
+      [
+        // {
+        //   text: 'Cancel',
+        //   onPress: () => console.log('Cancel Pressed'),
+        //   style: 'cancel',
+        // },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]
+    )
+
   return (
     <View style={[styles.calendarItem, { width: windowWidth / calCols - 4 }]}>
       <View style={styles.dateContainer}>
         <TouchableOpacity
-          disabled={date <= currentDate ? false : true}
+          // disabled={date <= currentDate ? false : true}
           style={styles.dateContainer}
-          onPress={() => handleFilmPress()}
+          onPress={() =>
+            date <= currentDate ? handleFilmPress() : handleTooSoon()
+          }
         >
           {completed && filmDetails ? (
             <ImageBackground

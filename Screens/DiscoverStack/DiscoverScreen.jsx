@@ -14,12 +14,14 @@ import Images from "../../Constants/Images"
 
 import axios from "axios"
 
+import { ENV_API_KEY } from "@env"
+
 const DiscoverScreen = ({ navigation }) => {
   const [discovery, setDiscovery] = useState(null)
   const windowWidth = Dimensions.get("window").width
   const [numCols, setNumCols] = useState(3)
 
-  let apiQuery = `https://api.themoviedb.org/3/discover/movie?api_key=d23b3e7c328d7a2c34d8c68f7f9a40f8&with_genres=27`
+  let apiQuery = `https://api.themoviedb.org/3/discover/movie?api_key=${ENV_API_KEY}&with_genres=27`
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,6 +38,7 @@ const DiscoverScreen = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
+    console.log(apiQuery)
     try {
       axios.get(apiQuery).then((res) => {
         setDiscovery(res.data.results)
