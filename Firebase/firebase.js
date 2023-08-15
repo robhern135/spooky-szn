@@ -1,19 +1,21 @@
 import * as firebase from "firebase"
 import "firebase/firestore"
 import { getFirestore, setDoc, doc } from "firebase/firestore"
-// import {
-//   initializeAuth,
-//   getReactNativePersistence,
-// } from "firebase/auth/react-native"
+
+import {
+  ENV_apiKey,
+  ENV_projectId,
+  ENV_storageBuckets,
+  ENV_messagingSenderId,
+  ENV_measurementId,
+} from "@env"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD6Kmg8TxQ6y1zzZroe_bNpIrvG3gahg58",
-  authDomain: "spooky-szn.firebaseapp.com",
-  projectId: "spooky-szn",
-  storageBucket: "spooky-szn.appspot.com",
-  messagingSenderId: "361405991781",
-  appId: "1:361405991781:web:b017f626499cc02776af8c",
-  measurementId: "G-TVB8B1BQV5",
+  apiKey: ENV_apiKey,
+  projectId: ENV_projectId,
+  storageBuckets: ENV_storageBuckets,
+  messagingSenderId: ENV_messagingSenderId,
+  measurementId: ENV_measurementId,
 }
 
 // Initialize Firebase
