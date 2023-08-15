@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native"
-import React, { useLayoutEffect } from "react"
+import React, { useLayoutEffect, useState } from "react"
 
 import FilmBanner from "./FilmScreen/FilmBanner"
 import Genres from "./FilmScreen/Genres"

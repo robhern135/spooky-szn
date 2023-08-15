@@ -5,6 +5,8 @@ import {
   FlatList,
   Dimensions,
   ImageBackground,
+  Text,
+  ActivityIndicator,
 } from "react-native"
 import { useEffect, useLayoutEffect, useState } from "react"
 
@@ -20,6 +22,7 @@ const DiscoverScreen = ({ navigation }) => {
   const [discovery, setDiscovery] = useState(null)
   const windowWidth = Dimensions.get("window").width
   const [numCols, setNumCols] = useState(3)
+  const [fetchError, setFetchError] = useState(false)
 
   let apiQuery = `https://api.themoviedb.org/3/discover/movie?api_key=${ENV_API_KEY}&with_genres=27`
 
@@ -40,11 +43,17 @@ const DiscoverScreen = ({ navigation }) => {
   useEffect(() => {
     console.log(apiQuery)
     try {
-      axios.get(apiQuery).then((res) => {
-        setDiscovery(res.data.results)
-      })
+      axios
+        .get(apiQuery)
+        .then((res) => {
+          setDiscovery(res.data.results)
+        })
+        .catch((err) => {
+          setFetchError(true)
+        })
     } catch (err) {
       alert(err.message)
+      setFetchError(true)
     }
   }, [])
 
@@ -59,6 +68,33 @@ const DiscoverScreen = ({ navigation }) => {
           }}
         ></ImageBackground>
       </View>
+    )
+  }
+
+  if (fetchError) {
+    return (
+      <SafeAreaView
+        style={[
+          styles.container,
+          {
+            flex: 1,
+            backgroundColor: Colors.black,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingHorizontal: 30,
+          },
+        ]}
+      >
+        <Text style={{ color: "white", fontSize: 20, textAlign: "center" }}>
+          Error fetching movies, please check you connection and if the problem
+          persists contact the developer.
+        </Text>
+        <ActivityIndicator
+          style={{ marginTop: 30 }}
+          size="large"
+          color={Colors.white}
+        />
+      </SafeAreaView>
     )
   }
 
