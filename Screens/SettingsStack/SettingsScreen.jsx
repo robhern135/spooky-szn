@@ -58,7 +58,7 @@ const SettingsScreen = ({ navigation }) => {
     })
   }, [])
 
-  const DeleteAccountConfirm = () =>
+  const DeleteAccountConfirm = () => {
     Alert.alert(
       "Delete my account",
       "Are you sure you would like to delete your account? This operation cannot be undone.",
@@ -71,6 +71,7 @@ const SettingsScreen = ({ navigation }) => {
         { text: "OK", onPress: () => handleDeleteAccount() },
       ]
     )
+  }
 
   const handleDeleteAccount = () => {
     const userRef = db.collection("users").doc(user.uid)
