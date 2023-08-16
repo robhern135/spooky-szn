@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from "react-native"
 import React, { useState, useLayoutEffect } from "react"
 
@@ -17,6 +18,7 @@ import MoviesNewUser from "../../Data/Movies-newuser"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 import Logo from "./Logo"
+import { StatusBar } from "expo-status-bar"
 
 const RegisterScreen = ({ route, navigation }) => {
   const [name, setName] = useState("")
@@ -93,6 +95,7 @@ const RegisterScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} behavior={"padding"}>
+      <StatusBar style="light" />
       <Logo />
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Register</Text>
@@ -120,7 +123,10 @@ const RegisterScreen = ({ route, navigation }) => {
             onPress={() => {
               setHidePassword(!hidePassword)
             }}
-            style={styles.eyeIcon}
+            style={[
+              styles.eyeIcon,
+              { bottom: Platform.OS === "ios" ? 10 : 15 },
+            ]}
             name={hidePassword ? "eye-off" : "eye"}
             size={24}
             color={hidePassword ? Colors.black : Colors.primary}

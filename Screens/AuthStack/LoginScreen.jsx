@@ -14,6 +14,7 @@ import Colors from "../../Constants/Colors"
 import { Feather } from "@expo/vector-icons"
 import { SafeAreaView } from "react-native-safe-area-context"
 import Logo from "./Logo"
+import { StatusBar } from "expo-status-bar"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("")
@@ -53,6 +54,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} behavior={"padding"}>
+      <StatusBar style="light" />
       <Logo />
       <View style={styles.inputContainer}>
         <Text style={styles.header}>Login</Text>
@@ -74,7 +76,10 @@ const LoginScreen = ({ navigation }) => {
             onPress={() => {
               setHidePassword(!hidePassword)
             }}
-            style={styles.eyeIcon}
+            style={[
+              styles.eyeIcon,
+              { bottom: Platform.OS === "ios" ? 10 : 15 },
+            ]}
             name={hidePassword ? "eye-off" : "eye"}
             size={24}
             color={hidePassword ? Colors.black : Colors.primary}
