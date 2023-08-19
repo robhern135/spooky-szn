@@ -41,7 +41,7 @@ const DiscoverScreen = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    console.log(apiQuery)
+    // console.log(apiQuery)
     try {
       axios
         .get(apiQuery)

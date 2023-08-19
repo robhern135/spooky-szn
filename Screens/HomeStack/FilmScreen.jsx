@@ -1,11 +1,17 @@
-import { StyleSheet, Text, View } from "react-native"
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native"
 import React, { useLayoutEffect, useState } from "react"
 
 import FilmBanner from "./FilmScreen/FilmBanner"
 import Genres from "./FilmScreen/Genres"
-import { Colors } from "react-native/Libraries/NewAppScreen"
 import FilmOverview from "./FilmScreen/FilmOverview"
 import Runtime from "./FilmScreen/Runtime"
+import Colors from "../../Constants/Colors"
 
 const FilmScreen = ({ route, navigation }) => {
   const {
@@ -45,10 +51,10 @@ const FilmScreen = ({ route, navigation }) => {
         backdrop_path={backdrop_path}
         release_date={release_date}
       />
-      <View style={[styles.filmInfo, { backgroundColor: Colors.black }]}>
+      <ScrollView style={[styles.filmInfo, { backgroundColor: Colors.black }]}>
         {completed && (
           <View style={styles.watchedOn}>
-            <Text style={[styles.watchedText, { color: Colors.white }]}>
+            <Text style={[styles.watchedText, { color: "white" }]}>
               You watched this movie on October {watchedOn} 2023
             </Text>
           </View>
@@ -60,8 +66,23 @@ const FilmScreen = ({ route, navigation }) => {
         )}
         {overview && <FilmOverview overview={overview} tagline={tagline} />}
         {runtime && <Runtime runtime={runtime} />}
-      </View>
+
+        <TouchableOpacity
+          style={[styles.button, { marginVertical: 20 }]}
+          onPress={() => console.log("deleting")}
+        >
+          <Text
+            style={[
+              styles.watchedText,
+              { textAlign: "center", fontSize: 20, fontWeight: "bold" },
+            ]}
+          >
+            Remove movie log
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
+    //TODO: DELETE BUTTON TO CLEAR FILM
   )
 }
 
@@ -77,8 +98,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
+  watchedOn: { marginTop: 20 },
   watchedText: {
     fontSize: 15,
   },
@@ -114,5 +136,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: Colors.orange,
+    paddingVertical: 10,
+    marginHorizontal: 10,
   },
 })

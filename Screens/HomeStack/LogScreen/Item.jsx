@@ -6,6 +6,8 @@ import { auth, db } from "../../../Firebase/firebase"
 
 import Images from "../../../Constants/Images"
 
+import { handleGetYear } from "../../../Functions/functions"
+
 const Item = ({ item, navigation, date, movies }) => {
   const {
     item: { title, release_date, poster_path, id },
@@ -22,9 +24,11 @@ const Item = ({ item, navigation, date, movies }) => {
     console.log("item pressed")
 
     const moviesRef = db.collection("users").doc(userId).collection("movies")
-
+    const year = handleGetYear()
     db.collection("users")
       .doc(userId)
+      .collection("years")
+      .doc(String(year))
       .collection("movies")
       .doc(`${date}`)
       .set(

@@ -6,7 +6,7 @@ import {
   TextInput,
   Dimensions,
 } from "react-native"
-import { useLayoutEffect, useState } from "react"
+import { useLayoutEffect, useEffect, useState } from "react"
 
 import axios from "axios"
 
@@ -63,6 +63,10 @@ const LogScreen = ({ route, navigation }) => {
       setSearchResults(res.data.results)
     })
   }
+
+  useEffect(() => {
+    console.log("going to single screen")
+  }, [])
 
   return (
     <SafeAreaView

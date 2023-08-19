@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   ActivityIndicator,
+  Text,
 } from "react-native"
 
 import { useState, useEffect } from "react"
@@ -13,6 +14,8 @@ import CalendarItem from "./CalendarItem"
 // import Movies from "../../../Data/Movies"
 
 import { auth, db } from "../../../Firebase/firebase"
+
+import { handleGetYear } from "../../../Functions/functions"
 
 const OctoberCalendar = ({ navigation, currentDate, route }) => {
   const { currentUser } = auth
@@ -23,14 +26,26 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
   const [movies, setMovies] = useState([])
 
   useEffect(() => {
-    console.log(`userId = ${userId}`)
+    // console.log(`userId = ${userId}`)
     setTimeout(() => getMoviesFromDB(), 150)
   }, [route])
 
+  const [theYear, setTheYear] = useState(handleGetYear())
+  useEffect(() => {
+    setTimeout(() => getMoviesFromDB(), 150)
+  }, [])
+
   const getMoviesFromDB = async () => {
-    const moviesRef = db.collection("users").doc(userId).collection("movies")
+    // console.log(`getting data from year ${theYear}`)
+    const moviesRef = db
+      .collection("users")
+      .doc(userId)
+      .collection("years")
+      .doc(String(theYear))
+      .collection("movies")
     const myArray = []
     const snapshot = await moviesRef.get()
+    // console.log(`moviesRef: ${moviesRef}`)
 
     if (snapshot) {
       console.log("data exists!")
@@ -40,7 +55,9 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
         myArray.sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
         // console.log(doc.id, "=>", data)
         setMovies(myArray)
-        // console.log(movies)
+        setTimeout(() => {
+          console.log(myArray)
+        }, 2000)
       })
     } else {
       console.log("data does not exist!")
@@ -49,27 +66,21 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
 
   return (
     <SafeAreaView style={styles.calendar}>
-      {movies ? (
-        <FlatList
-          data={movies}
-          renderItem={({ item }) => (
-            <CalendarItem
-              navigation={navigation}
-              calCols={calCols}
-              movie={item}
-              itemIndex={item.index}
-              currentDate={currentDate}
-              movies={movies}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={calCols}
-        />
-      ) : (
-        <View style={styles.container}>
-          <ActivityIndicator size="large" color="white" />
-        </View>
-      )}
+      <FlatList
+        data={movies}
+        renderItem={({ item }) => (
+          <CalendarItem
+            navigation={navigation}
+            calCols={calCols}
+            movie={item}
+            itemIndex={item.index}
+            currentDate={currentDate}
+            movies={movies}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={calCols}
+      />
     </SafeAreaView>
   )
 }

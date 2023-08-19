@@ -20,6 +20,8 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import Logo from "./Logo"
 import { StatusBar } from "expo-status-bar"
 
+import { handleGetYear } from "../../Functions/functions"
+
 const RegisterScreen = ({ route, navigation }) => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState(route.params.email)
@@ -44,8 +46,8 @@ const RegisterScreen = ({ route, navigation }) => {
           .then(setUpBlankMovies(user.uid))
       })
       .catch((err) => {
-        alert(err.message)
-        console.log(err.message)
+        alert(`error setting up user doc: ${err.message}`)
+        console.log(`error setting up user doc: ${err.message}`)
       })
   }
 
@@ -56,11 +58,16 @@ const RegisterScreen = ({ route, navigation }) => {
   }, [])
 
   const setUpBlankMovies = (userId) => {
+    let useYear = handleGetYear()
     try {
       console.log(`userId is ${userId}`)
       const userRef = db.collection("users").doc(userId)
-      const movieRef = db.collection("users").doc(userId).collection("movies")
-
+      const movieRef = db
+        .collection("users")
+        .doc(userId)
+        .collection("years")
+        .doc(String(useYear))
+        .collection("movies")
       userRef.set(
         {
           hasMoviesSetUp: true,
@@ -84,8 +91,8 @@ const RegisterScreen = ({ route, navigation }) => {
         MoviesNewUserLength++
       })
     } catch (err) {
-      alert(err.message)
-      console.log(err.message)
+      alert(`error saving base movies: ${err.message}`)
+      console.log(`error saving base movies: ${err.message}`)
     }
   }
 

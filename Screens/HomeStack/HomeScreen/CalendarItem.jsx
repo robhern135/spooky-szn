@@ -39,7 +39,7 @@ const CalendarItem = ({
   const getFilmDetails = () => {
     try {
       let apiQuery = `https://api.themoviedb.org/3/movie/${filmId}?api_key=${ENV_API_KEY}&language=en-US`
-      console.log(apiQuery)
+      // console.log(apiQuery)
       axios
         .get(apiQuery)
         .then((res) => {
