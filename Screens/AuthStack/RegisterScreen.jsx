@@ -14,7 +14,7 @@ import Colors from "../../Constants/Colors"
 
 import { Feather } from "@expo/vector-icons"
 
-import MoviesNewUser from "../../Data/Movies-newuser"
+import MoviesNewUser from "../../Data/Movies-newuser-2023"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 import Logo from "./Logo"
