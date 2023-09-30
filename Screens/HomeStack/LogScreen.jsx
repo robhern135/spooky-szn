@@ -40,7 +40,7 @@ const LogScreen = ({ route, navigation }) => {
 
   const handleTextChange = (text) => {
     setText(text)
-    if (text.length >= 3) {
+    if (text.length >= 1) {
       setSearchQuery(text)
       setErrorText(null)
       searchForFilms()
@@ -48,10 +48,11 @@ const LogScreen = ({ route, navigation }) => {
       if (text.length == 0) {
         setSearchQuery(null)
         setErrorText(null)
-      } else {
-        setSearchQuery(null)
-        setErrorText("Please keep typing to search")
       }
+      // else {
+      //   setSearchQuery(null)
+      //   setErrorText("Please keep typing to search")
+      // }
     }
   }
 
