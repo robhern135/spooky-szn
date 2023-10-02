@@ -25,6 +25,8 @@ const Item = ({ item, navigation, date, movies }) => {
 
     db.collection("users")
       .doc(userId)
+      .collection("years")
+      .doc("2023")
       .collection("movies")
       .doc(`${date}`)
       .set(

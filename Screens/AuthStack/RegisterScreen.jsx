@@ -58,8 +58,17 @@ const RegisterScreen = ({ route, navigation }) => {
   const setUpBlankMovies = (userId) => {
     try {
       console.log(`userId is ${userId}`)
-      const userRef = db.collection("users").doc(userId)
-      const movieRef = db.collection("users").doc(userId).collection("movies")
+      const userRef = db
+        .collection("users")
+        .doc(userId)
+        .collection("years")
+        .doc("2023")
+      const movieRef = db
+        .collection("users")
+        .doc(userId)
+        .collection("years")
+        .doc("2023")
+        .collection("movies")
 
       userRef.set(
         {

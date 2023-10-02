@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   ActivityIndicator,
+  Text,
 } from "react-native"
 
 import { useState, useEffect } from "react"
@@ -28,10 +29,15 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
   }, [route])
 
   const getMoviesFromDB = async () => {
-    const moviesRef = db.collection("users").doc(userId).collection("movies")
+    const moviesRef = db
+      .collection("users")
+      .doc(userId)
+      .collection("years")
+      .doc("2023")
+      .collection("movies")
     const myArray = []
     const snapshot = await moviesRef.get()
-
+    console.log(`uid: ${userId}`)
     if (snapshot) {
       console.log("data exists!")
       snapshot.forEach((doc) => {
@@ -40,7 +46,8 @@ const OctoberCalendar = ({ navigation, currentDate, route }) => {
         myArray.sort((a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0))
         // console.log(doc.id, "=>", data)
         setMovies(myArray)
-        // console.log(movies)
+
+        console.log(myArray)
       })
     } else {
       console.log("data does not exist!")
